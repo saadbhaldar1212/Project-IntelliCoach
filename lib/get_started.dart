@@ -1,4 +1,10 @@
+import 'package:fitness_advisor_chatbot/components/app_bar.dart';
+import 'package:fitness_advisor_chatbot/components/elevated_button.dart';
+import 'package:fitness_advisor_chatbot/components/text.dart';
+import 'package:fitness_advisor_chatbot/theme/theme.dart';
+import 'package:fitness_advisor_chatbot/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GetStarted extends StatefulWidget {
   const GetStarted({super.key});
@@ -12,24 +18,28 @@ class _GetStartedState extends State<GetStarted> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: AppBar(
-        elevation: 0,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.sunny))],
-        // title: const Text('Get Started'),
-        // centerTitle: true,
-        // backgroundColor: Theme.of(context).primaryColor,
-      ),
-      body: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.tertiary,
+      appBar: const MyAppBar(),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const MyText(
+                content: 'Fitness ChatBot v3.10',
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+              MyElevatedButton(
+                onPressed: () {},
+                child: const MyText(
+                  content: 'Get Started',
+                ),
+              ),
+            ],
           ),
-          child: Text(
-            'Get Started',
-          ),
-          onPressed: () {},
-        ),
+        ],
       ),
     );
   }
