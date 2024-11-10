@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Fitness Chatbot v3.10',
-      home: const ChatScreen(chatScreenTitle: 'Fitness Chatbot v3.10'),
+      home: const GetStarted(),
+      // const ChatScreen(chatScreenTitle: 'Fitness Chatbot v3.10'),
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
     );

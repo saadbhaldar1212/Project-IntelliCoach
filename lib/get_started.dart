@@ -1,3 +1,4 @@
+import 'package:fitness_advisor_chatbot/chat_screen.dart';
 import 'package:fitness_advisor_chatbot/components/app_bar.dart';
 import 'package:fitness_advisor_chatbot/components/elevated_button.dart';
 import 'package:fitness_advisor_chatbot/components/text.dart';
@@ -18,7 +19,9 @@ class _GetStartedState extends State<GetStarted> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      appBar: const MyAppBar(),
+      appBar: const MyAppBar(
+        title: '',
+      ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -32,7 +35,17 @@ class _GetStartedState extends State<GetStarted> {
                 fontWeight: FontWeight.w600,
               ),
               MyElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChatScreen(
+                        chatScreenTitle: 'Fitness Chatbot v3.10',
+                      ),
+                    ),
+                    (route) => false,
+                  );
+                },
                 child: const MyText(
                   content: 'Get Started',
                 ),

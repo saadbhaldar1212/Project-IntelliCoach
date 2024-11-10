@@ -8,11 +8,11 @@ import '../theme/theme_provider.dart';
 class MyAppBar extends StatefulWidget implements PreferredSizeWidget {
   const MyAppBar({
     super.key,
-    this.title,
+    required this.title,
     this.centerTitle = false,
   });
 
-  final String? title;
+  final String title;
   final bool? centerTitle;
 
   @override
@@ -43,7 +43,7 @@ class _MyAppBarState extends State<MyAppBar> {
       ],
       backgroundColor: Theme.of(context).colorScheme.background,
       title: MyText(
-        content: widget.title!,
+        content: widget.title,
       ),
       centerTitle: widget.centerTitle,
     );
