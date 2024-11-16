@@ -1,0 +1,48 @@
+2024-11-15 20:37:20,843 - INFO - Environment Keys initialized
+2024-11-15 20:37:20,843 - INFO - FastAPI initialized
+2024-11-15 20:38:19,280 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-15 20:38:19,285 - INFO - fitness_query_output
+2024-11-15 20:41:34,013 - DEBUG - load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-11-15 20:41:34,029 - DEBUG - load_verify_locations cafile='c:\\Users\\saadb\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\certifi\\cacert.pem'
+2024-11-15 20:41:34,249 - INFO - Environment Keys initialized
+2024-11-15 20:41:34,249 - INFO - FastAPI initialized
+2024-11-15 20:43:59,329 - DEBUG - load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-11-15 20:43:59,329 - DEBUG - load_verify_locations cafile='c:\\Users\\saadb\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\certifi\\cacert.pem'
+2024-11-15 20:43:59,560 - INFO - Environment Keys initialized
+2024-11-15 20:43:59,560 - INFO - FastAPI initialized
+2024-11-15 20:44:11,624 - DEBUG - load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-11-15 20:44:11,632 - DEBUG - load_verify_locations cafile='c:\\Users\\saadb\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\certifi\\cacert.pem'
+2024-11-15 20:44:11,864 - INFO - Environment Keys initialized
+2024-11-15 20:44:11,864 - INFO - FastAPI initialized
+2024-11-15 20:44:35,092 - DEBUG - load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-11-15 20:44:35,092 - DEBUG - load_verify_locations cafile='c:\\Users\\saadb\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\certifi\\cacert.pem'
+2024-11-15 20:44:35,332 - INFO - Environment Keys initialized
+2024-11-15 20:44:35,333 - INFO - FastAPI initialized
+2024-11-15 20:44:52,326 - DEBUG - load_ssl_context verify=True cert=None trust_env=True http2=False
+2024-11-15 20:44:52,336 - DEBUG - load_verify_locations cafile='c:\\Users\\saadb\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\certifi\\cacert.pem'
+2024-11-15 20:44:52,578 - INFO - Environment Keys initialized
+2024-11-15 20:44:52,578 - INFO - FastAPI initialized
+2024-11-15 20:44:55,860 - DEBUG - Request options: {'method': 'post', 'url': '/chat/completions', 'files': None, 'json_data': {'messages': [{'role': 'system', 'content': 'You are an Fitness Coach Expert who only answer for question which are related to Fitness, Gym and Health.'}, {'role': 'user', 'content': 'Given the query, you must only answer for question which are related to Fitness, Gym and Health. \n            Note: Any other question asked must be answered as "Question is out of context".\n            \n            query: incoming_query=\'Hi\'\n            Strictly provide the output in JSON format\n            {\n                "answer": ""\n            }\n            '}], 'model': 'gpt-4o-mini', 'response_format': {'type': 'json_object'}}}
+2024-11-15 20:44:55,894 - DEBUG - Sending HTTP Request: POST https://api.openai.com/v1/chat/completions
+2024-11-15 20:44:55,894 - DEBUG - connect_tcp.started host='api.openai.com' port=443 local_address=None timeout=5.0 socket_options=None
+2024-11-15 20:44:55,911 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000212D7DE29C0>
+2024-11-15 20:44:55,911 - DEBUG - start_tls.started ssl_context=<ssl.SSLContext object at 0x00000212D7D1AE50> server_hostname='api.openai.com' timeout=5.0
+2024-11-15 20:44:55,927 - DEBUG - start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000212D7DE27E0>
+2024-11-15 20:44:55,927 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2024-11-15 20:44:55,927 - DEBUG - send_request_headers.complete
+2024-11-15 20:44:55,927 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2024-11-15 20:44:55,927 - DEBUG - send_request_body.complete
+2024-11-15 20:44:55,927 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2024-11-15 20:44:56,697 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Fri, 15 Nov 2024 15:15:01 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'access-control-expose-headers', b'X-Request-ID'), (b'openai-organization', b'user-uccy3slhjzhd1pn9fjfqppwy'), (b'openai-processing-ms', b'489'), (b'openai-version', b'2020-10-01'), (b'x-ratelimit-limit-requests', b'10000'), (b'x-ratelimit-limit-tokens', b'200000'), (b'x-ratelimit-remaining-requests', b'9999'), (b'x-ratelimit-remaining-tokens', b'199863'), (b'x-ratelimit-reset-requests', b'8.64s'), (b'x-ratelimit-reset-tokens', b'41ms'), (b'x-request-id', b'req_12e82ed1a49a78d092afdbcec14f1bdc'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'CF-Cache-Status', b'DYNAMIC'), (b'Set-Cookie', b'__cf_bm=NciBWj3JwX4guksOS7gIDuX5TYiEN7fRpPrtwY.n1p4-1731683701-1.0.1.1-0mnYzh9Fmubuv0v3nQiEiASPBWtJ3jGwWkVyDRGuoqylqxp8fFlVvABFcD2Mmd0ILzQi4TN2bXENCmKt9rCamg; path=/; expires=Fri, 15-Nov-24 15:45:01 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'X-Content-Type-Options', b'nosniff'), (b'Set-Cookie', b'_cfuvid=bVkR5Bs80ur6RmWyMLfF1Ax1ExBvavNosxJOay6zs5s-1731683701467-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), (b'Server', b'cloudflare'), (b'CF-RAY', b'8e3031b96e6c47d3-BOM'), (b'Content-Encoding', b'gzip'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2024-11-15 20:44:56,698 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-15 20:44:56,698 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2024-11-15 20:44:56,698 - DEBUG - receive_response_body.complete
+2024-11-15 20:44:56,698 - DEBUG - response_closed.started
+2024-11-15 20:44:56,698 - DEBUG - response_closed.complete
+2024-11-15 20:44:56,698 - DEBUG - HTTP Response: POST https://api.openai.com/v1/chat/completions "200 OK" Headers([('date', 'Fri, 15 Nov 2024 15:15:01 GMT'), ('content-type', 'application/json'), ('transfer-encoding', 'chunked'), ('connection', 'keep-alive'), ('access-control-expose-headers', 'X-Request-ID'), ('openai-organization', 'user-uccy3slhjzhd1pn9fjfqppwy'), ('openai-processing-ms', '489'), ('openai-version', '2020-10-01'), ('x-ratelimit-limit-requests', '10000'), ('x-ratelimit-limit-tokens', '200000'), ('x-ratelimit-remaining-requests', '9999'), ('x-ratelimit-remaining-tokens', '199863'), ('x-ratelimit-reset-requests', '8.64s'), ('x-ratelimit-reset-tokens', '41ms'), ('x-request-id', 'req_12e82ed1a49a78d092afdbcec14f1bdc'), ('strict-transport-security', 'max-age=31536000; includeSubDomains; preload'), ('cf-cache-status', 'DYNAMIC'), ('set-cookie', '__cf_bm=NciBWj3JwX4guksOS7gIDuX5TYiEN7fRpPrtwY.n1p4-1731683701-1.0.1.1-0mnYzh9Fmubuv0v3nQiEiASPBWtJ3jGwWkVyDRGuoqylqxp8fFlVvABFcD2Mmd0ILzQi4TN2bXENCmKt9rCamg; path=/; expires=Fri, 15-Nov-24 15:45:01 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), ('x-content-type-options', 'nosniff'), ('set-cookie', '_cfuvid=bVkR5Bs80ur6RmWyMLfF1Ax1ExBvavNosxJOay6zs5s-1731683701467-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None'), ('server', 'cloudflare'), ('cf-ray', '8e3031b96e6c47d3-BOM'), ('content-encoding', 'gzip'), ('alt-svc', 'h3=":443"; ma=86400')])
+2024-11-15 20:44:56,698 - DEBUG - request_id: req_12e82ed1a49a78d092afdbcec14f1bdc
+2024-11-15 20:44:56,699 - INFO - fitness_query_output: {'custom_dimensions': {'incoming_query': QueryRequest(incoming_query='Hi'), 'answer': 'Question is out of context'}}
+2024-11-15 20:45:48,979 - INFO - Environment Keys initialized
+2024-11-15 20:45:48,979 - INFO - FastAPI initialized
+2024-11-15 20:45:56,319 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-15 20:45:56,323 - INFO - fitness_query_output: {'custom_dimensions': {'incoming_query': QueryRequest(incoming_query='Hi'), 'answer': 'Question is out of context'}}
