@@ -23,6 +23,8 @@ def get_fitness_related_output(query: str):
                     "content": f"""{config.FITNESS_PROMPT.format(query=query)}"""
                 },
             ],
+            max_tokens=1000,
+            temperature=0.0,
         )
         content = json.loads(response.choices[0].message.content)["answer"]
         return content

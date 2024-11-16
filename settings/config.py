@@ -27,7 +27,7 @@ class Config:
 
             # OpenAI config
             self.OPENAI_API_KEY = os.environ['OPENAI_API_KEY'] 
-            self.OPENAI_API_MODEL = os.environ['OPENAI-API-MODEL']
+            self.OPENAI_API_MODEL = os.environ['OPENAI_API_MODEL']
             self.CLIENT = OpenAI(api_key=self.OPENAI_API_KEY)
             # logger.info('OpenAI configurations initialized')
         except Exception as e:
