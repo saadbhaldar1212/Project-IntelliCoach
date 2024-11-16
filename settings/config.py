@@ -11,7 +11,7 @@ class Config:
     def __init__(self):
         try:
             # API Authentication Key
-            self.x_api_authentication_key = os.environ['X-API-KEY']
+            self.x_api_authentication_key = os.environ['X_API_KEY']
 
             # Prompt
             self.FITNESS_PROMPT = """Given the query, you must only answer for question which are related to Fitness, Gym and Health. 
@@ -26,7 +26,7 @@ class Config:
             # logger.info('Promp Template initialized')
 
             # OpenAI config
-            self.OPENAI_API_KEY = os.environ['OPENAI-API-KEY'] 
+            self.OPENAI_API_KEY = os.environ['OPENAI_API_KEY'] 
             self.OPENAI_API_MODEL = os.environ['OPENAI-API-MODEL']
             self.CLIENT = OpenAI(api_key=self.OPENAI_API_KEY)
             # logger.info('OpenAI configurations initialized')
