@@ -4,9 +4,12 @@ from fastapi import FastAPI, Depends
 from dotenv import find_dotenv, load_dotenv
 
 from settings.logger_setup import logger
+from settings.config import config
 
 from helpers.helper_functions import get_fitness_related_output, authenticate
 from model.query import QueryRequest, QueryResponse
+
+from database.user_schema import list_users
 
 _ = load_dotenv(find_dotenv())
 logger.info('Environment Keys initialized')
@@ -43,6 +46,13 @@ async def fitness_query(
             success=False,
             error_message=str(e)
         )
+@app.post("/user")
+async def get_all_users():
+    """
+    The function `get_all_bags` retrieves all bags from a bag collection asynchronously in Python.
+    """
+    users = list_users(config.user_collection.find())
+    return users
     
 if __name__ == "__main__":
     logger.info('Starting Uvicorn Server')
