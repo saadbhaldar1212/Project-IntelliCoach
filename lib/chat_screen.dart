@@ -33,6 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Expanded(
             child: ListView.builder(
+              addAutomaticKeepAlives: true,
               controller: scrollController,
               itemCount: msgs.length,
               shrinkWrap: true,
@@ -59,7 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               textStyle: TextStyle(
                                 color: Theme.of(context).colorScheme.tertiary,
                               ),
-                            )
+                            ),
                           ],
                         )
                       : BubbleNormal(

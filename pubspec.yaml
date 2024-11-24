@@ -11,9 +11,10 @@ dependencies:
     sdk: flutter
     
   cupertino_icons: ^1.0.2 # Use with the CupertinoIcons class for iOS style icons.
-  http:
-  chat_bubbles:
-  provider:
+  http: 1.1.0
+  chat_bubbles: 1.6.0
+  provider: 6.1.2
+  mongo_dart: 0.10.0
 
 dev_dependencies:
   flutter_test:
