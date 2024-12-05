@@ -1,9 +1,12 @@
-import 'dart:async';
-import 'package:fitness_advisor_chatbot/components/app_bar.dart';
-
 import 'message.dart';
-import 'package:chat_bubbles/bubbles/bubble_normal.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:chat_bubbles/bubbles/bubble_normal.dart';
+
+import 'package:fitness_advisor_chatbot/components/app_bar.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.chatScreenTitle});
@@ -17,8 +20,9 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController controller = TextEditingController();
   ScrollController scrollController = ScrollController();
-  List<Message> msgs = [];
   bool isTyping = false;
+  List<Message> msgs = [];
+  List<Message> errorMessage = [];
 
   @override
   Widget build(BuildContext context) {
@@ -157,73 +161,16 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void sendMsg() async {
+  Future<void> sendMsg() async {
     String text = controller.text;
     controller.clear();
-    // String apiKey =
-    //     "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";
-    // try {
-    //   if (text.isNotEmpty) {
-    //     setState(
-    //       () {
-    //         msgs.insert(
-    //           0,
-    //           Message(true, text),
-    //         );
-    //         isTyping = true;
-    //       },
-    //     );
-    //     scrollController.animateTo(0.0,
-    //         duration: const Duration(seconds: 1), curve: Curves.easeOut);
-    //     var response = await http.post(
-    //       Uri.parse("https://api.openai.com/v1/chat/completions"),
-    //       headers: {
-    //         "Authorization": "Bearer $apiKey",
-    //         "Content-Type": "application/json"
-    //       },
-    //       body: jsonEncode(
-    //         {
-    //           "model": "gpt-4o-mini",
-    //           "messages": [
-    //             {"role": "user", "content": text}
-    //           ]
-    //         },
-    //       ),
-    //     );
-    //     if (response.statusCode == 200) {
-    //       var json = jsonDecode(response.body);
-    //       setState(
-    //         () {
-    //           isTyping = false;
-    //           msgs.insert(
-    //             0,
-    //             Message(
-    //               false,
-    //               json["choices"][0]["message"]["content"]
-    //                   .toString()
-    //                   .trimLeft(),
-    //             ),
-    //           );
-    //         },
-    //       );
-    //       scrollController.animateTo(0.0,
-    //           duration: const Duration(seconds: 1), curve: Curves.easeOut);
-    //     }
-    //   }
-    // } on Exception {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text("Some error occurred, please try again!"),
-    //     ),
-    //   );
-    // }
     try {
       if (text.isNotEmpty) {
         setState(
           () {
             msgs.insert(
               0,
-              Message(true, text),
+              Message(isSender: true, msg: text),
             );
             isTyping = true;
           },
@@ -231,20 +178,58 @@ class _ChatScreenState extends State<ChatScreen> {
         scrollController.animateTo(0.0,
             duration: const Duration(seconds: 1), curve: Curves.easeOut);
 
-        Timer(
-          const Duration(seconds: 3),
+        userQuery(text);
+      }
+    } on Exception {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage.isNotEmpty
+                ? errorMessage[0].msg
+                : "Some error occurred, please try again!",
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> userQuery(incomingQuery) async {
+    try {
+      var headers = {
+        'X-API-KEY':
+            'f45b98763210cedfa45b98763210cedfa45b98763210cedfa45b98763210cedfa',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://app-fitnesschatbot-prod-001.azurewebsites.net/query'),
+      );
+      request.body = json.encode({'incoming_query': incomingQuery});
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+      var queryResponse = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        setState(
           () {
-            setState(
-              () {
-                isTyping = false;
-                msgs.insert(
-                  0,
-                  Message(
-                    false,
-                    'Hello! How can I assist you?',
-                  ),
-                );
-              },
+            isTyping = false;
+            msgs.insert(
+              0,
+              Message(
+                isSender: false,
+                msg: jsonDecode(queryResponse)["answer"].toString().trimLeft(),
+              ),
+            );
+            errorMessage.insert(
+              0,
+              Message(
+                isSender: false,
+                msg: jsonDecode(queryResponse)["error_message"]
+                    .toString()
+                    .trimLeft(),
+              ),
             );
             scrollController.animateTo(0.0,
                 duration: const Duration(seconds: 1), curve: Curves.easeOut);
@@ -253,8 +238,12 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } on Exception {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Some error occurred, please try again!"),
+        SnackBar(
+          content: Text(
+            errorMessage.isNotEmpty
+                ? errorMessage[0].msg
+                : "Some error occurred, please try again!",
+          ),
         ),
       );
     }
