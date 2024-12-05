@@ -54,6 +54,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               color: Theme.of(context).colorScheme.tertiary,
                               textStyle: TextStyle(
                                 color: Theme.of(context).colorScheme.background,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
                               ),
                             ),
                             // TODO: Add Animation for 'Typing ...' pop-up
@@ -75,6 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               : Theme.of(context).colorScheme.tertiary,
                           textStyle: TextStyle(
                             color: Theme.of(context).colorScheme.background,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
                           ),
                         ),
                 );
@@ -83,22 +87,22 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Row(
             children: [
-              // TODO: 'Add' Button for adding Images, Documents, etc.
-              // IconButton(
-              //   onPressed: () {},
-              //   color: Theme.of(context).colorScheme.tertiary,
-              //   iconSize: 40,
-              //   icon: const Icon(
-              //     Icons.add_circle_sharp,
-              //   ),
-              // ),
+              // TODO: 'Add' Button functionality for adding Images, Documents, etc.
+              IconButton(
+                onPressed: () {},
+                color: Theme.of(context).colorScheme.tertiary,
+                iconSize: 40,
+                icon: const Icon(
+                  Icons.add_circle,
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(
                     right: 12.0,
                     top: 12.0,
                     bottom: 12.0,
-                    left: 12.0, // 5 - if ADD button
+                    left: 5.0, // 5 - if ADD button and 12 - if NOT
                   ),
                   child: Container(
                     width: double.infinity,
@@ -108,11 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: 12,
-                        right: 12,
-                        bottom: 5,
-                      ),
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: TextField(
                         controller: controller,
                         textCapitalization: TextCapitalization.sentences,
@@ -125,10 +125,14 @@ class _ChatScreenState extends State<ChatScreen> {
                           border: InputBorder.none,
                           hintText: "Enter text",
                           hintStyle: TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        style: const TextStyle(
+                          fontFamily: 'MSReference2',
+                        ),
+                        cursorColor: Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                   ),
