@@ -23,12 +23,13 @@ async def fitness_query(
     query: QueryRequest, _: None = Depends(authenticate)
 ) -> QueryResponse:
     try:
-        topics = [topic['value'] for topic in query.topics]
+        topics = query.topics
+        incoming_query = query.incoming_query
 
-        fitness_query_output = get_fitness_related_output(query=query.incoming_query, topics=topics)
+        fitness_query_output = get_fitness_related_output(query=incoming_query, topics=topics)
         properties = {
             "custom_dimensions": {
-                "incoming_query": query,
+                "incoming_query": incoming_query,
                 "answer": fitness_query_output,
                 "topics": topics,
             }

@@ -24,7 +24,7 @@ class Config:
                 "answer": ""
             }}
             """
-            logger.info('Promp Template initialized')
+            logger.info('Prompt Template initialized')
 
             # OpenAI config
             self.OPENAI_API_KEY = os.environ['OPENAI_API_KEY'] 
