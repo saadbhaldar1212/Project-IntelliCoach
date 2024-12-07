@@ -235,6 +235,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.2"
+  multi_dropdown:
+    dependency: "direct main"
+    description:
+      name: multi_dropdown
+      sha256: da25f6defdc62aaf8ce0842d31ff7875fad29aeb13f5b2de9e157a06d53f4b74
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   nested:
     dependency: transitive
     description:
@@ -418,4 +426,4 @@ packages:
     version: "0.4.5"
 sdks:
   dart: ">=3.0.6 <4.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=1.17.0"

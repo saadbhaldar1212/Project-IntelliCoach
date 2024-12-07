@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/bubbles/bubble_normal.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
 
 import 'package:fitness_advisor_chatbot/components/app_bar.dart';
 
@@ -24,6 +25,15 @@ class _ChatScreenState extends State<ChatScreen> {
   List<Message> msgs = [];
   List<Message> errorMessage = [];
 
+  // TODO: Fetch Topics from Database
+  var items = [
+    DropdownItem(label: 'Fitness', value: 'Fitness', selected: true),
+    DropdownItem(label: 'Health', value: 'Health'),
+  ];
+  final formKey = GlobalKey<FormState>();
+  final multiSelectController = MultiSelectController<String>();
+  List<DropdownItem<String>> selectedItems = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +42,100 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      MultiDropdown<String>(
+                        items: items,
+                        controller: multiSelectController,
+                        enabled: true,
+                        searchEnabled: true,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        chipDecoration: ChipDecoration(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          wrap: true,
+                          runSpacing: 2,
+                          spacing: 10,
+                        ),
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Topics',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                          prefixIcon: const Icon(Icons.menu),
+                          showClearIcon: false,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        dropdownDecoration: DropdownDecoration(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          marginTop: 2,
+                          maxHeight: 500,
+                          header: const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              'Select topics from the list',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        dropdownItemDecoration: DropdownItemDecoration(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          selectedBackgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          selectedIcon: const Icon(
+                            Icons.check_box,
+                            color: Colors.green,
+                          ),
+                          disabledIcon: Icon(
+                            Icons.lock,
+                            color: Colors.grey.shade300,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select a topic to continue';
+                          }
+                          return null;
+                        },
+                        onSelectionChange: (selectedItems) {
+                          debugPrint("OnSelectionChange: $selectedItems");
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
           const SizedBox(
             height: 8,
           ),
@@ -42,6 +146,7 @@ class _ChatScreenState extends State<ChatScreen> {
               itemCount: msgs.length,
               shrinkWrap: true,
               reverse: true,
+              padding: const EdgeInsets.only(bottom: 70),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -85,81 +190,86 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          Row(
-            children: [
-              // TODO: 'Add' Button functionality for adding Images, Documents, etc.
-              IconButton(
-                onPressed: () {},
-                color: Theme.of(context).colorScheme.tertiary,
-                iconSize: 40,
-                icon: const Icon(
-                  Icons.add_circle,
-                ),
+        ],
+      ),
+      primary: true,
+      bottomSheet: Row(
+        children: [
+          // TODO: 'Add' Button functionality for adding Images, Documents, etc.
+          IconButton(
+            onPressed: () {},
+            color: Theme.of(context).colorScheme.tertiary,
+            iconSize: 40,
+            icon: const Icon(
+              Icons.add_circle,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 12.0,
+                top: 12.0,
+                bottom: 12.0,
+                left: 5.0, // 5 - if ADD button and 12 - if NOT
               ),
-              Expanded(
+              child: Container(
+                width: double.infinity,
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    right: 12.0,
-                    top: 12.0,
-                    bottom: 12.0,
-                    left: 5.0, // 5 - if ADD button and 12 - if NOT
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: TextField(
-                        controller: controller,
-                        textCapitalization: TextCapitalization.sentences,
-                        onSubmitted: (value) {
-                          sendMsg();
-                        },
-                        textInputAction: TextInputAction.send,
-                        showCursor: true,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Enter text",
-                          hintStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        style: const TextStyle(
-                          fontFamily: 'MSReference2',
-                        ),
-                        cursorColor: Theme.of(context).colorScheme.tertiary,
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextField(
+                    controller: controller,
+                    textCapitalization: TextCapitalization.sentences,
+                    onSubmitted: (value) {
+                      sendMsg();
+                    },
+                    textInputAction: TextInputAction.send,
+                    showCursor: true,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Enter text",
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
+                    style: const TextStyle(
+                      fontFamily: 'MSReference2',
+                    ),
+                    cursorColor: Theme.of(context).colorScheme.tertiary,
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  sendMsg();
-                },
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Icon(
-                    Icons.send,
-                    color: Theme.of(context).colorScheme.background,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              )
-            ],
+            ),
           ),
+          InkWell(
+            onTap: () {
+              if (formKey.currentState?.validate() ?? false) {
+                selectedItems = multiSelectController.selectedItems;
+                print(selectedItems);
+                sendMsg();
+              }
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiary,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Icon(
+                Icons.send,
+                color: Theme.of(context).colorScheme.background,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          )
         ],
       ),
     );
@@ -209,7 +319,12 @@ class _ChatScreenState extends State<ChatScreen> {
         Uri.parse(
             'https://app-fitnesschatbot-prod-001.azurewebsites.net/query'),
       );
-      request.body = json.encode({'incoming_query': incomingQuery});
+      request.body = json.encode(
+        {
+          'incoming_query': incomingQuery,
+          'topics': selectedItems.toString(),
+        },
+      );
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
