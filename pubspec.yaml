@@ -11,9 +11,11 @@ dependencies:
     sdk: flutter
     
   cupertino_icons: ^1.0.2 # Use with the CupertinoIcons class for iOS style icons.
-  http:
-  chat_bubbles:
-  provider:
+  http: 1.1.0
+  chat_bubbles: 1.6.0
+  provider: 6.1.2
+  mongo_dart: 0.10.0
+  multi_dropdown: 3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -42,8 +44,21 @@ flutter:
           weight: 500
         - asset: fonts/Poppins/Poppins-SemiBold.ttf
           weight: 600
-    # - family: Trajan Pro
-    #   fonts:
-    #     - asset: fonts/TrajanPro.ttf
-    #     - asset: fonts/TrajanPro_Bold.ttf
-    #       weight: 700
+          
+    - family: Urbanist
+      fonts:
+        - asset: fonts/Urbanist/Urbanist-Thin.ttf
+          weight: 200
+        - asset: fonts/Urbanist/Urbanist-Light.ttf
+          weight: 300
+        - asset: fonts/Urbanist/Urbanist-Regular.ttf
+          weight: 400
+        - asset: fonts/Urbanist/Urbanist-Medium.ttf
+          weight: 500
+        - asset: fonts/Urbanist/Urbanist-SemiBold.ttf
+          weight: 600
+
+    - family: MSReference2
+      fonts:
+        - asset: fonts/MSReference2/MSReference2-Regular.ttf
+          weight: 400

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData lightMode = ThemeData(
   brightness: Brightness.light,
   useMaterial3: true,
-  fontFamily: 'Poppins',
+  fontFamily: 'Urbanist',
   colorScheme: ColorScheme.light(
     background: Colors.grey.shade100,
     primary: Colors.grey.shade300,
@@ -15,7 +15,7 @@ ThemeData lightMode = ThemeData(
 ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
   useMaterial3: true,
-  fontFamily: 'Poppins',
+  fontFamily: 'Urbanist',
   colorScheme: ColorScheme.dark(
     background: Colors.grey.shade900,
     primary: Colors.grey.shade800,
