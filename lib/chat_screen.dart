@@ -316,8 +316,7 @@ class _ChatScreenState extends State<ChatScreen> {
       var request = http.Request(
         'POST',
         Uri.parse(
-          // 'https://app-fitnesschatbot-prod-001.azurewebsites.net/query'
-          'https://localhost:8000/query',
+          'https://app-fitnesschatbot-prod-001.azurewebsites.net/query',
         ),
       );
 
@@ -327,7 +326,6 @@ class _ChatScreenState extends State<ChatScreen> {
           'topics': selectedItems.map((e) => e.value).toList(),
         },
       );
-      print(request.body);
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
