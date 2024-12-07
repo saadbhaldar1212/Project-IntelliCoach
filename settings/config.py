@@ -15,10 +15,10 @@ class Config:
             self.x_api_authentication_key = os.environ['X_API_KEY']
 
             # Prompt
-            self.FITNESS_PROMPT = """Given the query, you must only answer for question which are related to Fitness, Gym and Health. 
+            self.FITNESS_PROMPT = """Given the query, you must only answer for question which are related to the given topics. 
             Note: Any other question asked must be answered as "Question is out of context".
-            
             query: {query}
+            topics: {topics}
             Strictly provide the output in JSON format
             {{
                 "answer": ""

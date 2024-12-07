@@ -8,7 +8,7 @@ from fastapi.security import APIKeyHeader
 
 x_api_key_header = APIKeyHeader(name="X-API-KEY")
 
-def get_fitness_related_output(query: str):
+def get_fitness_related_output(query: str, topics: str):
     try:
         response = config.CLIENT.chat.completions.create(
             model=config.OPENAI_API_MODEL,
@@ -20,7 +20,7 @@ def get_fitness_related_output(query: str):
                 },
                 {
                     "role": "user",
-                    "content": f"""{config.FITNESS_PROMPT.format(query=query)}"""
+                    "content": f"""{config.FITNESS_PROMPT.format(query=query, topics=topics)}"""
                 },
             ],
             max_tokens=1000,
