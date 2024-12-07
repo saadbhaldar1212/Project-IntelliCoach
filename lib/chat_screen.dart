@@ -250,7 +250,6 @@ class _ChatScreenState extends State<ChatScreen> {
             onTap: () {
               if (formKey.currentState?.validate() ?? false) {
                 selectedItems = multiSelectController.selectedItems;
-                print(selectedItems);
                 sendMsg();
               }
             },
@@ -322,7 +321,7 @@ class _ChatScreenState extends State<ChatScreen> {
       request.body = json.encode(
         {
           'incoming_query': incomingQuery,
-          'topics': selectedItems.toString(),
+          'topics': selectedItems.toList(),
         },
       );
       request.headers.addAll(headers);
