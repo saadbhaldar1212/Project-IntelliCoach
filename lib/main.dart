@@ -1,4 +1,5 @@
 import 'package:fitness_advisor_chatbot/chat_screen.dart';
+import 'package:fitness_advisor_chatbot/core/database/connect.dart';
 import 'package:fitness_advisor_chatbot/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
       home: const ChatScreen(chatScreenTitle: 'Fitness Chatbot v3.10'),
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
+      themeAnimationDuration: const Duration(milliseconds: 35),
     );
   }
 }
