@@ -6,6 +6,7 @@ from settings.logger_setup import logger
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 
+
 x_api_key_header = APIKeyHeader(name="X-API-KEY")
 
 def get_fitness_related_output(query: str, topics: list):

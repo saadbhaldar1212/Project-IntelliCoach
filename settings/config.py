@@ -32,6 +32,10 @@ class Config:
             self.CLIENT = OpenAI(api_key=self.OPENAI_API_KEY)
             logger.info('OpenAI configurations initialized')
 
+            # OpenAI Embedding config
+            self.OPENAI_EMBEDDING_MODEL = os.environ['OPENAI_EMBEDDING_MODEL']
+            logger.info('OpenAI Embedding configurations initialized')
+
             # MongoDB config
             self.client = MongoClient(os.environ['MONGODB_URI'])
             self.db = self.client["db-fitness-chatbot"]

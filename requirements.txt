@@ -3,3 +3,6 @@ fastapi
 uvicorn
 python_dotenv
 pymongo
+langchain_chroma
+langchain_openai
+chromadb
