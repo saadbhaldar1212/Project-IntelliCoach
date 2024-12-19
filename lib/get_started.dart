@@ -17,7 +17,7 @@ class _GetStartedState extends State<GetStarted> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: const MyAppBar(
-        title: 'Fitness ChatBot v3.10',
+        title: '',
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -26,11 +26,23 @@ class _GetStartedState extends State<GetStarted> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Hero(
+                tag: 'getStartedScreenLogo',
+                child: Image.asset(
+                  'assets/images/launch_image.png',
+                ),
+              ),
               const MyText(
-                content: 'Fitness ChatBot v3.10',
-                fontSize: 22,
+                content: 'IntelliCoach',
+                fontSize: 30,
                 fontWeight: FontWeight.w600,
               ),
+              const MyText(
+                content: 'Fitness ChatBot',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(height: 20),
               MyElevatedButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
