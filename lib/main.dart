@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'IntelliCoach - Fitness Chatbot v3.10',
       home: const GetStarted(),
-      // const ChatScreen(chatScreenTitle: 'Fitness Chatbot v3.10')
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
       themeAnimationDuration: const Duration(milliseconds: 35),
