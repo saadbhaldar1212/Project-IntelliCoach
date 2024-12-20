@@ -1,6 +1,6 @@
-# fitness_advisor_chatbot
+# Project-IntelliCoach
 
-A new Flutter project.
+Fitness Advisor Chatbot.
 
 ## Getting Started
 
