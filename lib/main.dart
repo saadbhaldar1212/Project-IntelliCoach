@@ -1,5 +1,3 @@
-import 'package:fitness_advisor_chatbot/chat_screen.dart';
-import 'package:fitness_advisor_chatbot/core/database/connect.dart';
 import 'package:fitness_advisor_chatbot/get_started.dart';
 import 'package:fitness_advisor_chatbot/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
