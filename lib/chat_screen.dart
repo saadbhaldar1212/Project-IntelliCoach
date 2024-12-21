@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'message.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -250,7 +252,6 @@ class _ChatScreenState extends State<ChatScreen> {
             onTap: () {
               if (formKey.currentState?.validate() ?? false) {
                 selectedItems = multiSelectController.selectedItems;
-                print(selectedItems);
                 sendMsg();
               }
             },
@@ -310,19 +311,20 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> userQuery(incomingQuery) async {
     try {
       var headers = {
-        'X-API-KEY':
-            'f45b98763210cedfa45b98763210cedfa45b98763210cedfa45b98763210cedfa',
+        'X-API-KEY': dotenv.env['X_API_KEY']!,
         'Content-Type': 'application/json'
       };
       var request = http.Request(
         'POST',
         Uri.parse(
-            'https://app-fitnesschatbot-prod-001.azurewebsites.net/query'),
+          dotenv.env['APP_DEPLOYMENT']!,
+        ),
       );
+
       request.body = json.encode(
         {
           'incoming_query': incomingQuery,
-          'topics': selectedItems.toString(),
+          'topics': selectedItems.map((e) => e.value).toList(),
         },
       );
       request.headers.addAll(headers);

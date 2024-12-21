@@ -1,9 +1,11 @@
-import 'package:fitness_advisor_chatbot/chat_screen.dart';
+import 'package:fitness_advisor_chatbot/get_started.dart';
 import 'package:fitness_advisor_chatbot/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await dotenv.load(fileName: 'lib/.flutter_env');
   WidgetsFlutterBinding.ensureInitialized();
   // await MongoDatabase.connect();
   runApp(
@@ -20,10 +22,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fitness Chatbot v3.10',
-      home: const ChatScreen(chatScreenTitle: 'Fitness Chatbot v3.10'),
+      title: 'IntelliCoach - Fitness Chatbot v3.10',
+      home: const GetStarted(),
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeProvider>(context).themeData,
+      themeAnimationDuration: const Duration(milliseconds: 35),
     );
   }
 }

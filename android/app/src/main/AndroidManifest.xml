@@ -4,9 +4,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="fitness_advisor_chatbot"
+        android:label="IntelliCoach"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/app_logo"
+        android:background="@drawable/logo_background"
+        >
         <activity
             android:name=".MainActivity"
             android:exported="true"
