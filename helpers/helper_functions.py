@@ -1,4 +1,5 @@
 import json
+import re
 
 from settings.config import config
 from settings.logger_setup import logger
@@ -9,7 +10,67 @@ from fastapi.security import APIKeyHeader
 
 x_api_key_header = APIKeyHeader(name="X-API-KEY")
 
+
+def authenticate(x_api_key: str = Depends(x_api_key_header)):
+    """
+    Authenticates the provided X-API-KEY against the configured authentication key.
+    Args:
+        x_api_key (str): The X-API-KEY provided in the request header.
+    Raises:
+        HTTPException: If the provided X-API-KEY does not match the configured authentication key, an HTTP 401 Unauthorized exception is raised.
+    """
+    if x_api_key != config.x_api_authentication_key:
+        logger.error(f"Invalid X-API-KEY given during authentication")
+        raise HTTPException(status_code=401, detail="Invalid X-API-KEY")
+
+
+def normalize_text_for_vdb_creation(s):
+    """
+    Normalize the input text for VDB (Vector Database) creation.
+    This function performs several text normalization steps:
+    - Replaces multiple whitespace characters with a single space and trims leading/trailing spaces.
+    - Removes commas.
+    - Replaces double periods with a single period.
+    - Removes newline characters.
+    - Removes question marks.
+    - Removes periods.
+    - Converts the text to lowercase.
+    Args:
+        s (str): The input text string to be normalized.
+    Returns:
+        str: The normalized text string.
+    Raises:
+        Exception: If any error occurs during the normalization process.
+    """
+    try:
+        s = re.sub(r"\s+", " ", s).strip()
+        s = re.sub(r".,", "", s)
+        s = s.replace("..", ".")
+        s = s.replace("..", ".")
+        s = s.replace("\n", "")
+        s = s.replace("?", "")
+        s = s.replace(".", "")
+        s = s.strip()
+        s = s.lower()
+        return s
+    except Exception as e:
+        raise e
+
+
 def get_fitness_related_output(query: str, topics: list):
+    """
+    Generates a fitness-related response based on the given query and topics using an AI model.
+    Args:
+        query (str): The user's query related to fitness, gym, or health.
+        topics (list): A list of topics to be included in the response.
+    Returns:
+        str: The generated response from the AI model.
+    Raises:
+        Exception: If there is an error in generating the response.
+    Example:
+        response = get_fitness_related_output("How to build muscle?", ["nutrition", "workout"])
+    """
+
     try:
         response = config.CLIENT.chat.completions.create(
             model=config.OPENAI_API_MODEL,
@@ -17,11 +78,11 @@ def get_fitness_related_output(query: str, topics: list):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an Fitness Coach Expert who only answer for question which are related to Fitness, Gym and Health."
+                    "content": "You are a Fitness Coach Expert who only answer for question which are related to Fitness, Gym and Health.",
                 },
                 {
                     "role": "user",
-                    "content": f"""{config.FITNESS_PROMPT.format(query=query, topics=topics)}"""
+                    "content": f"""{config.FITNESS_PROMPT.format(query=query, topics=topics)}""",
                 },
             ],
             max_tokens=1000,
@@ -30,10 +91,115 @@ def get_fitness_related_output(query: str, topics: list):
         content = json.loads(response.choices[0].message.content)["answer"]
         return content
     except Exception as e:
-        logger.exception(f"Error in helper_function: get_fitness_related_output: {str(e)}")
+        logger.exception(
+            f"Error in helper_function: get_fitness_related_output: {str(e)}"
+        )
         raise e
-    
-def authenticate(x_api_key: str = Depends(x_api_key_header)):
-    if x_api_key != config.x_api_authentication_key:
-        logger.error(f"Invalid X-API-KEY given during authentication")
-        raise HTTPException(status_code=401, detail="Invalid X-API-KEY")
+
+
+def is_chit_chat(question):
+    """
+    Determines if a given question is a chit-chat or greeting.
+    This function sends the question to an AI model to analyze if it is a chit-chat or greeting.
+    It uses the OpenAI API to get a response and parses the response to determine the nature of the question.
+    Args:
+        question (str): The question to be analyzed.
+    Returns:
+        dict: A JSON object containing the analysis result from the AI model.
+    Raises:
+        Exception: If there is an error in processing the request or parsing the response.
+    """
+    try:
+        response = config.CLIENT.chat.completions.create(
+            model=config.OPENAI_API_MODEL,
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": "You are an AI Assistant."},
+                {
+                    "role": "user",
+                    "content": f"""{config.IS_GREETINGS.format(question=question)}""",
+                },
+            ],
+            max_tokens=1000,
+            temperature=0.0,
+        )
+        content = json.loads(response.choices[0].message.content)
+        return content
+    except Exception as e:
+        logger.exception(f"Error in helper_function: is_chit_chat: {str(e)}")
+        raise e
+
+
+def greet_back():
+    """
+    Sends a greeting message to the OpenAI API and returns the response.
+    Returns:
+        dict: The response content from the OpenAI API as a JSON object.
+    Raises:
+        Exception: If there is an error during the API call or response processing, the exception is logged and re-raised.
+    """
+    try:
+        response = config.CLIENT.chat.completions.create(
+            model=config.OPENAI_API_MODEL,
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": "You are an AI Assistant."},
+                {"role": "user", "content": f"""{config.GREET_BACK}"""},
+            ],
+            max_tokens=1000,
+            temperature=0.0,
+        )
+        content = json.loads(response.choices[0].message.content)
+        return content
+    except Exception as e:
+        logger.exception(f"Error in helper_function: greet_back: {str(e)}")
+        raise e
+
+
+def query_llm(query, topics):
+    try:
+        query = normalize_text_for_vdb_creation(query)
+        similar_docs = config.vdb.similarity_search_with_relevance_scores(query, k=3)
+
+        for doc, score in similar_docs:
+            if score >= 0.95:
+                faq_sheet_answer = config.df_excel.loc[
+                    config.df_excel["Answer"] == doc.metadata["answer"], "Answer"
+                ].values[0]
+                logger.info(f"Answer from Excel: {faq_sheet_answer}")
+                print(f"Answer from Excel: {faq_sheet_answer}")
+                return faq_sheet_answer
+            elif score >= 0.90:
+                faq_vdb_answer = doc.metadata["answer"]
+                logger.info(f"Answer from VDB: {faq_vdb_answer}")
+                print(f"Answer from VDB: {faq_vdb_answer}")
+                return faq_vdb_answer
+            else:
+                is_greetings_based = is_chit_chat(doc.page_content)[
+                    "is_greetings_based"
+                ]
+                greet = greet_back()["greet_back"]
+                if is_greetings_based:
+                    logger.info(f"Answer from AI Assistant: {greet}")
+                    print(f"Answer from AI Assistant: {greet}")
+                    return greet
+                else:
+                    # TODO: If answering from the topic related query from the FAQ sheet and use custom scope. Check if Scope == Topic name and only then answer from the FAQ sheet.
+                    # Make use of `topics` in FAQ SHEET inference aswell and compare it will scope
+                    fitness_query_output = get_fitness_related_output(
+                        query=query, topics=topics
+                    )
+                    properties = {
+                        "custom_dimensions": {
+                            "incoming_query": query,
+                            "answer": fitness_query_output,
+                            "topics": topics,
+                        }
+                    }
+                    logger.info(
+                        "fitness_query_output: %s", properties, extra=properties
+                    )
+                    return fitness_query_output
+    except Exception as e:
+        logger.error(f"Error in query_llm: {e}")
+        raise e
