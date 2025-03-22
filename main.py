@@ -1,5 +1,4 @@
 import uvicorn
-import ast
 
 from fastapi import FastAPI, Depends
 from dotenv import find_dotenv, load_dotenv
@@ -24,11 +23,18 @@ async def fitness_query(
     query: QueryRequest, _: None = Depends(authenticate)
 ) -> QueryResponse:
     try:
-        response = query_llm(query=query.incoming_query, topics=query.topics)
-        return QueryResponse(success=True, answer=response, topics=query.topics)
+        source, response = query_llm(query=query.incoming_query, topics=query.topics)
+        return QueryResponse(
+            success=True, answer=response, topics=query.topics, source=source
+        )
     except Exception as e:
         properties = {
-            "custom_dimensions": {"incoming_query": query, "error_message": str(e)}
+            "custom_dimensions": {
+                "incoming_query": query,
+                "error_message": str(e),
+                "topics": query.topics,
+                "source": source,
+            }
         }
         logger.exception("Error in fitness_query: %s", properties, extra=properties)
         return QueryResponse(
@@ -53,6 +59,7 @@ if __name__ == "__main__":
             app,
             # host="0.0.0.0",
             port=8000,
+            server_header=False,
         )
     except Exception as e:
         logger.error("Error starting in Uvicorn server")

@@ -146,7 +146,7 @@ def greet_back():
                 {"role": "system", "content": "You are an AI Assistant."},
                 {"role": "user", "content": f"""{config.GREET_BACK}"""},
             ],
-            max_tokens=1000,
+            max_tokens=300,
             temperature=0.0,
         )
         content = json.loads(response.choices[0].message.content)
@@ -161,31 +161,33 @@ def query_llm(query, topics):
         query = normalize_text_for_vdb_creation(query)
         similar_docs = config.vdb.similarity_search_with_relevance_scores(query, k=3)
 
+        # NOTE: Questions other than GREETINGS are also considered in FAQ_SHEET and FAQ_VDB
         for doc, score in similar_docs:
             if score >= 0.95:
                 faq_sheet_answer = config.df_excel.loc[
                     config.df_excel["Answer"] == doc.metadata["answer"], "Answer"
                 ].values[0]
+                source = "FAQ_SHEET"
                 logger.info(f"Answer from Excel: {faq_sheet_answer}")
-                print(f"Answer from Excel: {faq_sheet_answer}")
-                return faq_sheet_answer
+                return source, faq_sheet_answer
             elif score >= 0.90:
                 faq_vdb_answer = doc.metadata["answer"]
+                source = "FAQ_VDB"
                 logger.info(f"Answer from VDB: {faq_vdb_answer}")
-                print(f"Answer from VDB: {faq_vdb_answer}")
-                return faq_vdb_answer
+                return source, faq_vdb_answer
             else:
                 is_greetings_based = is_chit_chat(doc.page_content)[
                     "is_greetings_based"
                 ]
                 greet = greet_back()["greet_back"]
                 if is_greetings_based:
+                    source = "LLM"
                     logger.info(f"Answer from AI Assistant: {greet}")
-                    print(f"Answer from AI Assistant: {greet}")
-                    return greet
+                    return source, greet
                 else:
                     # TODO: If answering from the topic related query from the FAQ sheet and use custom scope. Check if Scope == Topic name and only then answer from the FAQ sheet.
                     # Make use of `topics` in FAQ SHEET inference aswell and compare it will scope
+                    source = "LLM"
                     fitness_query_output = get_fitness_related_output(
                         query=query, topics=topics
                     )
@@ -199,7 +201,7 @@ def query_llm(query, topics):
                     logger.info(
                         "fitness_query_output: %s", properties, extra=properties
                     )
-                    return fitness_query_output
+                    return source, fitness_query_output
     except Exception as e:
         logger.error(f"Error in query_llm: {e}")
         raise e
