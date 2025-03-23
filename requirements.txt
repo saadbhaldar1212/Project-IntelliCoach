@@ -6,4 +6,5 @@ pymongo
 langchain_chroma
 langchain_openai
 chromadb
+pandas
 slowapi
