@@ -2,3 +2,4 @@
 
 settings/.env
 settings/logs-fitness-chatbot.log
+.venv/
