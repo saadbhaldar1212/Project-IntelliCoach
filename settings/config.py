@@ -64,16 +64,14 @@ class Config:
             logger.info("Database configurations initialized")
 
             # FAQ Sheet
-            self.df_excel = pd.read_excel(
-                r"D:\GitHub\Fitness_Advisor\3.10\fitness_advisor_chatbot\fitness_advisor_chatbot_v3.10\database\chroma\Fitnessbot_allInOneQA.xlsx"
-            )
+            self.df_excel = pd.read_excel(r"database\chroma\Fitnessbot_allInOneQA.xlsx")
             logger.info("FAQ Sheet initialized")
 
             # FAQ VDB
             self.EMBEDDING_CLIENT = OpenAIEmbeddings(model=self.OPENAI_EMBEDDING_MODEL)
             self.vdb = Chroma(
                 embedding_function=self.EMBEDDING_CLIENT,
-                persist_directory=r"D:\GitHub\Fitness_Advisor\3.10\fitness_advisor_chatbot\fitness_advisor_chatbot_v3.10\database\chroma\FitnessBot_Questions_VDB",
+                persist_directory=r"database\chroma\FitnessBot_Questions_VDB",
             )
         except Exception as e:
             logger.exception(
