@@ -8,3 +8,4 @@ langchain_openai
 pandas
 openpyxl
 slowapi
+sqlite3
