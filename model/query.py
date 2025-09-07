@@ -11,7 +11,9 @@ class QueryRequest(BaseModel):
     topics: list
 
     class Config:
-        json_scheme_extra = {"example": {"incoming_query": "", "topics": []}}
+        json_schema_extra = {
+            "example": {"incoming_query": "Hello", "topics": ["Health"]}
+        }
 
 
 class QueryResponse(BaseModel):
