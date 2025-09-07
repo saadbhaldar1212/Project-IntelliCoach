@@ -14,10 +14,12 @@ BUCKET_NAME = os.environ["BUCKET_NAME"]
 # File keys in the bucket
 FAQ_VDB_PREFIX = "faq_vdb/FitnessBot_Questions_VDB/"
 FAQ_SHEET_KEY = "faq_sheet/Fitnessbot_allInOneQA.xlsx"
+SECRET_AUTH_KEY = "intellicoach-fitness-chatbot-589e0fc60f1e.json"
 
 # Local paths
 LOCAL_VDB_BASE = r"database\chroma\FitnessBot_Questions_VDB"
 LOCAL_SHEET_PATH = r"database\chroma\Fitnessbot_allInOneQA.xlsx"
+LOCAL_SECRET_KEY_BASE = r"settings\intellicoach-fitness-chatbot-589e0fc60f1e.json"
 
 
 def create_s3_client():
@@ -73,6 +75,13 @@ def download_faq_sheet(s3, bucket, key, local_path):
     download_s3_file(s3, bucket, key, local_path)
 
 
+def download_secret_key(s3, bucket, key, local_path):
+    """
+    Download the secret key file from S3 to the specified local path.
+    """
+    download_s3_file(s3, bucket, key, local_path)
+
+
 def main():
     """
     Main function to download the FAQ VDB directory and FAQ sheet from S3.
@@ -80,6 +89,7 @@ def main():
     s3 = create_s3_client()
     download_vdb_directory(s3, BUCKET_NAME, FAQ_VDB_PREFIX, LOCAL_VDB_BASE)
     download_faq_sheet(s3, BUCKET_NAME, FAQ_SHEET_KEY, LOCAL_SHEET_PATH)
+    download_secret_key(s3, BUCKET_NAME, SECRET_AUTH_KEY, LOCAL_SECRET_KEY_BASE)
     print("Download complete.")
 
 
