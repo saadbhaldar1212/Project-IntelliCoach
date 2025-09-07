@@ -4,7 +4,9 @@ uvicorn
 python_dotenv
 pymongo
 langchain_chroma
-langchain_openai
+langchain_google_genai
 pandas
 openpyxl
 slowapi
+infisicalsdk # For Secret Management
+boto3 # For Blob Storage

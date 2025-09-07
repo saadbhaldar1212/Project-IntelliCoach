@@ -4,12 +4,9 @@ from fastapi import FastAPI, Depends
 from dotenv import find_dotenv, load_dotenv
 
 from settings.logger_setup import logger
-from settings.config import config
 
 from helpers.helper_functions import authenticate, query_llm
 from model.query import QueryRequest, QueryResponse
-
-from database.mongodb.user_schema import list_users
 
 _ = load_dotenv(find_dotenv())
 logger.info("Environment Keys initialized")
@@ -20,6 +17,10 @@ logger.info("FastAPI initialized")
 
 @app.get("/")
 async def root():
+    """
+    :return: A dictionary with a key "message" and a value "Welcome to Fitness Chatbot" is being
+    returned.
+    """
     return {"message": """Welcome to Fitness Chatbot"""}
 
 
@@ -27,6 +28,9 @@ async def root():
 async def fitness_query(
     query: QueryRequest, _: None = Depends(authenticate)
 ) -> QueryResponse:
+    """
+    Function processes a query by calling `fitness_query` workflow and returns a response.
+    """
     try:
         source, response = query_llm(query=query.incoming_query, topics=query.topics)
         return QueryResponse(
@@ -48,13 +52,13 @@ async def fitness_query(
         )
 
 
-@app.post("/user")
-async def get_all_users():
-    """
-    The function `get_all_bags` retrieves all bags from a bag collection asynchronously in Python.
-    """
-    users = list_users(config.user_collection.find())
-    return users
+# @app.post("/user")
+# async def get_all_users():
+#     """
+#     The function `get_all_bags` retrieves all bags from a bag collection asynchronously in Python.
+#     """
+#     users = list_users(config.user_collection.find())
+#     return users
 
 
 if __name__ == "__main__":
