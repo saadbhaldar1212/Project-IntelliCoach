@@ -13,6 +13,11 @@ from settings.logger_setup import logger
 
 _ = load_dotenv(find_dotenv())
 
+__import__("pysqlite3")
+import sys
+
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
 
 class Config:
     def __init__(self):
