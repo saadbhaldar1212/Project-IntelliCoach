@@ -22,7 +22,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.10'
 
       - name: Create and start virtual environment
         run: |
@@ -70,3 +70,4 @@ jobs:
           slot-name: 'Production'
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C1D5852005ED4E77A3A5EC023DB4FDCE }}
+
