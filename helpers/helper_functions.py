@@ -9,6 +9,11 @@ from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 
 
+__import__("pysqlite3")
+import sys
+
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
 x_api_key_header = APIKeyHeader(name="X-API-KEY")
 
 

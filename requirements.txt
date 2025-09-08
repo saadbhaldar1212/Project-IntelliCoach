@@ -10,3 +10,4 @@ openpyxl
 slowapi
 infisicalsdk # For Secret Management
 boto3 # For Blob Storage
+pysqlite3-binary
