@@ -31,8 +31,14 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
+
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      - name: Patch chromadb to use pysqlite3
+        run: |
+          FILE=$(find venv -path "*chromadb/__init__.py" | head -n 1)
+          echo "__import__('pysqlite3')" | cat - "$FILE" > temp && mv temp "$FILE"
+          echo "import sys" >> "$FILE"
+          echo "sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')" >> "$FILE"
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -70,4 +76,5 @@ jobs:
           slot-name: 'Production'
 
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C1D5852005ED4E77A3A5EC023DB4FDCE }}
+
 
