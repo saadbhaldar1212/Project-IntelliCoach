@@ -4,6 +4,8 @@ import pandas as pd
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
+from google import genai
+
 # from pymongo.mongo_client import MongoClient
 
 from dotenv import find_dotenv, load_dotenv
@@ -50,13 +52,12 @@ class Config:
             """
             logger.info("Prompt Template initialized")
 
-            # LLAMA config
-            self.HF_TOKEN = os.environ["HF_TOKEN"]
-            self.API_URL = os.environ["API_URL"]
-            self.LLAMA_MODEL = os.environ["LLAMA_MODEL"]
-            logger.info("OpenAI configurations initialized")
+            # Gemini config
+            self.GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
+            logger.info("Gemini configurations initialized")
 
             # Gemini AI Embedding config
+            self.GEMINI_CLIENT = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
             self.GEMINI_EMBEDDING_MODEL = os.environ["GEMINI_EMBEDDING_MODEL"]
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = (
                 r".\settings\intellicoach-fitness-chatbot-589e0fc60f1e.json"
