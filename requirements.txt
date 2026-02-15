@@ -2,12 +2,14 @@ fastapi
 uvicorn
 python_dotenv
 pymongo
-langchain_chroma
-langchain_google_genai
 pandas
 openpyxl
 slowapi
+# Removed local Chroma VDB dependencies; using Azure Search instead
+# langchain_chroma
+# langchain_google_genai
 infisicalsdk # For Secret Management
 boto3 # For Blob Storage
-pysqlite3-binary
 google-genai
+azure-search-documents
+azure-identity

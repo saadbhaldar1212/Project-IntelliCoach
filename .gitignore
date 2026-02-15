@@ -6,4 +6,7 @@ settings/logs-fitness-chatbot.log
 
 intellicoach-fitness-chatbot-589e0fc60f1e.json
 
-database/chroma/
+database/Fitnessbot_allInOneQA.xlsx
+database/mongodb/
+
+notebooks/
