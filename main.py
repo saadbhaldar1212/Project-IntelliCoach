@@ -1,3 +1,9 @@
+"""FastAPI application for fitness advisor chatbot.
+
+This module provides API endpoints for fitness-related queries with authentication
+and integrates with LLM and Azure AI Search for answering questions.
+"""
+
 import uvicorn
 
 from fastapi import FastAPI, Depends
@@ -28,15 +34,22 @@ async def root():
 async def fitness_query(
     query: QueryRequest, _: None = Depends(authenticate)
 ) -> QueryResponse:
+    """Process a fitness query and return an AI-generated response.
+
+    Args:
+        query (QueryRequest): The incoming query request with query text and topics.
+        _ (None): Authentication dependency (unused variable).
+
+    Returns:
+        QueryResponse: Response containing success status, answer, topics, and source.
     """
-    Function processes a query by calling `fitness_query` workflow and returns a response.
-    """
+    source = None
     try:
         source, response = query_llm(query=query.incoming_query, topics=query.topics)
         return QueryResponse(
             success=True, answer=response, topics=query.topics, source=source
         )
-    except Exception as e:
+    except (RuntimeError, ValueError) as e:
         properties = {
             "custom_dimensions": {
                 "incoming_query": query,
