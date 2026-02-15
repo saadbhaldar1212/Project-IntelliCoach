@@ -1,5 +1,10 @@
-from pydantic import BaseModel
+"""Query request and response models for the fitness advisor API.
+
+Defines Pydantic models for validating and serializing API requests and responses.
+"""
+
 from typing import Optional
+from pydantic import BaseModel
 
 
 class QueryRequest(BaseModel):
@@ -11,6 +16,10 @@ class QueryRequest(BaseModel):
     topics: list
 
     class Config:
+        """
+        Custom Example for QueryRequest.
+        """
+
         json_schema_extra = {
             "example": {"incoming_query": "Hello", "topics": ["Health"]}
         }
